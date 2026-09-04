@@ -15,7 +15,7 @@ A personal expense-tracking web application for a household of two. Either membe
 ## User Stories
 
 1. As a Household Member, I want to sign in securely, so that only my household can access our expense data.
-2. As a Household Member, I want to add an expense with an amount, category, and date, so that I can quickly record spending as it happens.
+2. As a Household Member, I want to add an expense with an amount, category, and date, so that I can quickly record spending as it happens, wherever I am.
 3. As a Household Member, I want to edit or delete any expense in our shared record, so that either of us can correct a mistake regardless of who logged it.
 4. As a Household Member, I want to view our daily, weekly, and monthly expenditure totals, so that I can track how our spending trends over time.
 5. As a Household Member, I want to view totals grouped by category, so that I can see where our household's money goes.
@@ -31,6 +31,7 @@ A personal expense-tracking web application for a household of two. Either membe
 - Limit status is surfaced as a visual indicator (e.g. a progress bar or color state) on the category totals view, checked whenever that view is opened — there is no proactive notification (e.g. email or push) when a limit is crossed.
 - All amounts are tracked in a single household currency. *assumed*
 - Expense categories are freely defined by the household, not drawn from a fixed preset list. *assumed*
+- An expense is dated using the local timezone at the moment it is logged (e.g. the device's timezone while traveling), not a fixed household timezone — so daily/weekly/monthly totals group each expense into the day it was experienced, even across trips.
 
 ## Out of Scope
 
