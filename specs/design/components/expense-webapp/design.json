@@ -7,20 +7,54 @@
   "appPath": "expense-webapp",
   "entrypoint": "deployment/web-application",
   "exposure": "internet",
+  "stories": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "description": "React SPA where either household member signs in, logs an expense in whatever currency they paid, browses and edits the shared expense list, and views daily/weekly/monthly and per-category totals (in USD) with a visual indicator when a category is near or over its limit. Manages categories and their limits. Holds no business logic and no secrets — everything is fetched from expense-api.",
   "dependencies": [
     {
       "kind": "component",
       "name": "expense-api",
-      "description": "Calls expense-api for all expense, category, limit, and totals data."
+      "description": "Calls expense-api for all expense, category, limit, and totals data.",
+      "wiring": {
+        "endpoint": {
+          "component": "smjexpenses-expense-api",
+          "name": "http",
+          "visibility": "project",
+          "envBindings": {
+            "address": "EXPENSE_API_URL"
+          }
+        }
+      }
     },
     {
       "kind": "platform-resource",
       "name": "user-auth",
+      "description": "Signs a household member in via Thunder SSO and carries their token on every expense-api call.",
       "resourceType": "thunder-app",
-      "description": "Signs a household member in via Thunder SSO and carries their token on every expense-api call."
+      "wiring": {
+        "ref": "smjexpenses-user-auth",
+        "envBindings": {
+          "client_id": "USER_AUTH_CLIENT_ID",
+          "issuer": "USER_AUTH_ISSUER",
+          "jwks_url": "USER_AUTH_JWKS_URL",
+          "scopes": "USER_AUTH_SCOPES"
+        }
+      }
     }
   ],
-  "description": "React SPA where either household member signs in, logs an expense in whatever currency they paid, browses and edits the shared expense list, and views daily/weekly/monthly and per-category totals (in USD) with a visual indicator when a category is near or over its limit. Manages categories and their limits. Holds no business logic and no secrets — everything is fetched from expense-api.",
-  "stories": [1, 2, 3, 4, 5, 6, 7, 8, 9],
-  "skillsPinned": ["wireframes", "react-webapp", "astryx-design-system", "thunder-authentication"]
+  "skillsPinned": [
+    "wireframes",
+    "react-webapp",
+    "astryx-design-system",
+    "thunder-authentication"
+  ]
 }
