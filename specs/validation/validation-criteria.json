@@ -34,7 +34,8 @@
       "criteria": [
         { "id": "AC-004-a", "must": "The totals view shows a daily total", "method": "e2e" },
         { "id": "AC-004-b", "must": "The totals view shows a weekly total", "method": "e2e" },
-        { "id": "AC-004-c", "must": "The totals view shows a monthly total", "method": "e2e" }
+        { "id": "AC-004-c", "must": "The totals view shows a monthly total", "method": "e2e" },
+        { "id": "AC-004-d", "must": "The totals chart breaks down spending by which household member logged it, in a stacked view", "method": "e2e" }
       ]
     },
     {

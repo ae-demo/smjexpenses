@@ -43,7 +43,7 @@ screen Totals "Daily, weekly, and monthly household spending"
   navbar "SMJ Expenses | Add Expense -> AddExpense | Expenses -> ExpenseList | Totals -> Totals | Categories -> Categories"
   heading "Totals"
   tabs "Daily | Weekly | Monthly"
-  chart "Spending over time" 600x260
+  chart "Spending over time, stacked by household member (You vs Wife)" 600x260
   card "This period | $412.60 | across all categories"
 
 screen Categories "Category totals, limits, and management"

@@ -43,7 +43,7 @@ components:
         limitUsd: { type: number, nullable: true, description: monthly spending limit in USD }
     Expense:
       type: object
-      required: [id, categoryId, amount, currency, expenseDate, amountUsd]
+      required: [id, categoryId, amount, currency, expenseDate, amountUsd, loggedByUserId]
       properties:
         id: { type: string }
         categoryId: { type: string }
@@ -52,6 +52,8 @@ components:
         amountUsd: { type: number, description: amount converted to household base currency (USD) }
         expenseDate: { type: string, format: date, description: local date the expense was logged on }
         loggedTimezone: { type: string, description: IANA timezone active when the expense was logged }
+        loggedByUserId: { type: string, description: household member who logged this expense }
+        loggedByName: { type: string, description: display name of the household member who logged this expense }
         createdAt: { type: string, format: date-time }
     ExpenseInput:
       type: object
@@ -73,10 +75,20 @@ components:
         status: { type: string, enum: [ok, near, over], description: limit status when limitUsd is set }
     PeriodTotal:
       type: object
-      required: [period, totalUsd]
+      required: [period, totalUsd, byUser]
       properties:
         period: { type: string, description: "e.g. 2026-09-04, 2026-W36, 2026-09" }
         totalUsd: { type: number }
+        byUser:
+          type: array
+          description: this period's total split by which household member logged it, for a stacked chart
+          items:
+            type: object
+            required: [userId, displayName, totalUsd]
+            properties:
+              userId: { type: string }
+              displayName: { type: string }
+              totalUsd: { type: number }
 security:
   - bearerAuth: []
 paths:
