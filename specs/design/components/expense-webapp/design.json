@@ -1,0 +1,26 @@
+{
+  "name": "expense-webapp",
+  "type": "web-application",
+  "version": "0.1.0",
+  "language": "TypeScript",
+  "buildpack": "docker",
+  "appPath": "expense-webapp",
+  "entrypoint": "deployment/web-application",
+  "exposure": "internet",
+  "dependencies": [
+    {
+      "kind": "component",
+      "name": "expense-api",
+      "description": "Calls expense-api for all expense, category, limit, and totals data."
+    },
+    {
+      "kind": "platform-resource",
+      "name": "user-auth",
+      "resourceType": "thunder-app",
+      "description": "Signs a household member in via Thunder SSO and carries their token on every expense-api call."
+    }
+  ],
+  "description": "React SPA where either household member signs in, logs an expense in whatever currency they paid, browses and edits the shared expense list, and views daily/weekly/monthly and per-category totals (in USD) with a visual indicator when a category is near or over its limit. Manages categories and their limits. Holds no business logic and no secrets — everything is fetched from expense-api.",
+  "stories": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  "skillsPinned": ["wireframes", "react-webapp", "astryx-design-system", "thunder-authentication"]
+}

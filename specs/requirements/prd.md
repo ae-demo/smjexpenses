@@ -32,7 +32,7 @@ A personal expense-tracking web application for a household of two. Either membe
 - Limit status is surfaced as a visual indicator (e.g. a progress bar or color state) on the category totals view, checked whenever that view is opened — there is no proactive notification (e.g. email or push) when a limit is crossed.
 - Each expense is recorded in whatever currency was actually paid, not forced into one currency at entry.
 - The household's base currency is USD. All totals, category summaries, and limit tracking are shown in USD, converting any foreign-currency expense using the exchange rate on the date that expense was logged (not the current rate), so historical totals don't drift as rates move.
-- Expense categories are freely defined by the household, not drawn from a fixed preset list. *assumed*
+- Expense categories are freely defined by the household, not drawn from a fixed preset list.
 - An expense is dated using the local timezone at the moment it is logged (e.g. the device's timezone while traveling), not a fixed household timezone — so daily/weekly/monthly totals group each expense into the day it was experienced, even across trips.
 
 ## Out of Scope

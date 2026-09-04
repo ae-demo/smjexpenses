@@ -1,0 +1,49 @@
+openapi: 3.0.3
+info:
+  title: Frankfurter FX Rates (lean contract)
+  version: "1.0"
+  description: >
+    Hand-authored contract for the public, keyless Frankfurter exchange-rate
+    API (api.frankfurter.dev). No vendor OpenAPI document is published; this
+    covers only the operations expense-api uses — looking up the rate for a
+    currency pair on a specific historical date.
+servers:
+  - url: https://api.frankfurter.dev/v1
+paths:
+  /{date}:
+    get:
+      operationId: getHistoricalRate
+      summary: Get exchange rates for a specific past date
+      parameters:
+        - name: date
+          in: path
+          required: true
+          description: Date the rate applies to (YYYY-MM-DD)
+          schema: { type: string, format: date }
+        - name: base
+          in: query
+          required: true
+          description: Currency the expense was paid in
+          schema: { type: string }
+        - name: symbols
+          in: query
+          required: true
+          description: Comma-separated target currencies (household base currency)
+          schema: { type: string }
+      responses:
+        '200':
+          description: Rates for the requested date
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [amount, base, date, rates]
+                properties:
+                  amount: { type: number }
+                  base: { type: string }
+                  date: { type: string, format: date }
+                  rates:
+                    type: object
+                    additionalProperties: { type: number }
+        '404':
+          description: No rates published for that date (e.g. weekend/holiday)

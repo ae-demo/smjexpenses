@@ -1,0 +1,38 @@
+{
+  "name": "expense-api",
+  "type": "service",
+  "version": "0.1.0",
+  "language": "Ballerina",
+  "buildpack": "docker",
+  "appPath": "expense-api",
+  "entrypoint": "deployment/service",
+  "exposure": "internet",
+  "dependencies": [
+    {
+      "kind": "platform-resource",
+      "name": "expense-db",
+      "resourceType": "postgres-cnpg",
+      "parameters": { "instances": 1, "storage": "1Gi", "version": "16" },
+      "description": "Stores expenses, categories, and category limits for the shared household pool."
+    },
+    {
+      "kind": "platform-resource",
+      "name": "user-auth",
+      "resourceType": "thunder-app",
+      "description": "Validates the signed-in household member's token so every expense/category/limit endpoint knows the caller."
+    },
+    {
+      "kind": "external",
+      "name": "frankfurter",
+      "style": "rest-api",
+      "specPath": "specs/design/components/expense-api/dependencies/frankfurter.openapi.yaml",
+      "config": [
+        { "key": "FRANKFURTER_BASE_URL", "defaultValue": "https://api.frankfurter.dev/v1", "description": "Base URL of the public Frankfurter exchange-rate API (no key required)" }
+      ],
+      "description": "Free, keyless, open-source FX rate API. Called with the expense's paid currency, its logged date, and the household base currency (USD) to fetch the historical rate used to convert that expense into USD for totals."
+    }
+  ],
+  "description": "Ballerina API serving the shared household expense pool: CRUD on expenses (amount, currency, category, date), category management, per-category limits, and daily/weekly/monthly and per-category totals converted to the household base currency (USD) using the historical rate on each expense's logged date. Does not render any UI and does not send notifications.",
+  "stories": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  "skillsPinned": ["openapi-conventions", "ballerina", "api-management", "thunder-authentication"]
+}

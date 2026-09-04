@@ -1,0 +1,18 @@
+title SMJ Expenses
+
+component expense-webapp as "Expense Tracker" web-application
+component expense-api as "Expense API" service
+component expense-db as "Expense Database" database
+
+east user-auth as "Thunder Auth" identity-server
+south frankfurter as "Frankfurter FX Rates" service
+
+north -> expense-webapp
+north -> expense-api
+
+expense-webapp -> expense-api
+expense-webapp -> user-auth
+
+expense-api -> user-auth
+expense-api -> expense-db
+expense-api -> frankfurter
