@@ -85,4 +85,3 @@ sequenceDiagram
 ```
 
 ### View spending totals split by household member
-
