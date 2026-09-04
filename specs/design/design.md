@@ -83,3 +83,6 @@ sequenceDiagram
   API-->>WEB: totals + limit + status (ok/near/over)
   WEB-->>HM: Progress bar per category
 ```
+
+### View spending totals split by household member
+
