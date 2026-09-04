@@ -15,13 +15,14 @@ A personal expense-tracking web application for a household of two. Either membe
 ## User Stories
 
 1. As a Household Member, I want to sign in securely, so that only my household can access our expense data.
-2. As a Household Member, I want to add an expense with an amount, category, and date, so that I can quickly record spending as it happens, wherever I am.
+2. As a Household Member, I want to add an expense with an amount in the currency I actually paid, a category, and a date, so that I can quickly record spending as it happens, wherever I am, without doing currency math first.
 3. As a Household Member, I want to edit or delete any expense in our shared record, so that either of us can correct a mistake regardless of who logged it.
 4. As a Household Member, I want to view our daily, weekly, and monthly expenditure totals, so that I can track how our spending trends over time.
 5. As a Household Member, I want to view totals grouped by category, so that I can see where our household's money goes.
 6. As a Household Member, I want to create, rename, and remove expense categories, so that our categories match how we actually think about our spending.
 7. As a Household Member, I want to set a spending limit for each category, so that we can budget deliberately.
 8. As a Household Member, I want to see a clear visual indicator when a category is near or over its limit, so that I know to rein in spending without doing the math myself.
+9. As a Household Member, I want expenses I logged in a foreign currency automatically converted to our household currency wherever totals are shown, so that our daily, weekly, monthly, and category summaries always add up in one currency regardless of where each expense was made.
 
 ## Product Decisions
 
@@ -29,13 +30,13 @@ A personal expense-tracking web application for a household of two. Either membe
 - Expenses are a single shared household pool — every expense either member logs is visible to, and editable by, both. There is no per-person private view.
 - Both household members have identical permissions; there is no admin/contributor distinction.
 - Limit status is surfaced as a visual indicator (e.g. a progress bar or color state) on the category totals view, checked whenever that view is opened — there is no proactive notification (e.g. email or push) when a limit is crossed.
-- All amounts are tracked in a single household currency. *assumed*
+- Each expense is recorded in whatever currency was actually paid, not forced into one currency at entry.
+- The household's base currency is USD. All totals, category summaries, and limit tracking are shown in USD, converting any foreign-currency expense using the exchange rate on the date that expense was logged (not the current rate), so historical totals don't drift as rates move.
 - Expense categories are freely defined by the household, not drawn from a fixed preset list. *assumed*
 - An expense is dated using the local timezone at the moment it is logged (e.g. the device's timezone while traveling), not a fixed household timezone — so daily/weekly/monthly totals group each expense into the day it was experienced, even across trips.
 
 ## Out of Scope
 
-- Multi-currency support.
 - Recurring/scheduled expenses (e.g. auto-logging a monthly subscription).
 - Proactive notifications or alerts (email, push, SMS) for limit breaches.
 - Support for households of more than two members.
