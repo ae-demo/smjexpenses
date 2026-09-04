@@ -39,9 +39,17 @@ test("AC-009-b: the USD amount reflects the exchange rate on the logged date", a
 
   await loginAsHouseholdMember(page);
 
+  // Unique amount so this run's rows are unambiguous among pre-existing data
+  // left by earlier validation runs against this same live system (a fixed
+  // "100" collided with rows an earlier cycle had already created).
+  const amount = (20 + (Date.now() % 900) / 100).toFixed(2);
+
   async function logEurExpense(month: string, day: string): Promise<void> {
-    await page.getByRole("link", { name: "Add Expense" }).click();
-    await page.getByRole("spinbutton", { name: "Amount", exact: false }).fill("100");
+    // Scoped to the top nav landmark: the Expenses list page also shows its
+    // own "Add Expense" CTA button, which otherwise makes this a
+    // strict-mode-violating locator.
+    await page.getByLabel("Primary").getByRole("link", { name: "Add Expense" }).click();
+    await page.getByRole("spinbutton", { name: "Amount", exact: false }).fill(amount);
     await page.getByRole("combobox", { name: "Currency", exact: false }).click();
     await page.getByRole("option", { name: "EUR", exact: true }).click();
     await page.getByRole("combobox", { name: "Category", exact: false }).click();
@@ -52,20 +60,20 @@ test("AC-009-b: the USD amount reflects the exchange rate on the logged date", a
   }
 
   await logEurExpense(OLDER_DATE.month, OLDER_DATE.day);
-  const olderRow = page.getByRole("row", { name: new RegExp(`${OLDER_DATE.iso} Food 100\\.00 EUR`) });
+  const olderRow = page.getByRole("row", { name: new RegExp(`${OLDER_DATE.iso} Food ${amount} EUR`) });
   await expect(olderRow).toBeVisible();
   const olderUsdText = await olderRow.getByRole("cell").nth(4).textContent();
 
   await logEurExpense(NEWER_DATE.month, NEWER_DATE.day);
-  const newerRow = page.getByRole("row", { name: new RegExp(`${NEWER_DATE.iso} Food 100\\.00 EUR`) });
+  const newerRow = page.getByRole("row", { name: new RegExp(`${NEWER_DATE.iso} Food ${amount} EUR`) });
   await expect(newerRow).toBeVisible();
   const newerUsdText = await newerRow.getByRole("cell").nth(4).textContent();
 
   // Assert: the two USD amounts differ, tracking the historical rates (not
   // both computed off a single "current" rate).
   expect(olderUsdText).not.toBe(newerUsdText);
-  const expectedOlder = (100 * olderRate).toFixed(2);
-  const expectedNewer = (100 * newerRate).toFixed(2);
+  const expectedOlder = (Number(amount) * olderRate).toFixed(2);
+  const expectedNewer = (Number(amount) * newerRate).toFixed(2);
   expect(olderUsdText?.trim()).toBe(expectedOlder);
   expect(newerUsdText?.trim()).toBe(expectedNewer);
 });
