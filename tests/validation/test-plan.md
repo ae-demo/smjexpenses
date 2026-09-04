@@ -1,0 +1,207 @@
+# SMJ Expenses — e2e validation test plan
+
+Target: `expense-webapp` (primary, proxies `/api/*` to `expense-api`), issue #7.
+
+Auth: Thunder OIDC Authorization Code + PKCE. An unauthenticated visit to any
+route bounces the same tab to Thunder's hosted "Gate" login form
+(`Username` / `Password` textboxes, "Sign In" button); after sign-in the
+browser lands back on the SPA. Credentials: the roles gate ticket (#3)
+provisions exactly one role/account, `Household Member` /
+`test-household-member` (cold start). Read from `AEP_E2E_USERNAME` /
+`AEP_E2E_PASSWORD` via `lib/auth.ts#loginAsHouseholdMember`.
+
+**Single test account caveat.** REQ-003 requires that *either* household
+member can edit/delete an expense the *other* logged. Only one account was
+provisioned, so AC-003-a/b cannot log in as two distinct people. The deployed
+API/UI place no ownership check on `PUT`/`DELETE /expenses/{id}` (confirmed
+by exploration: the Edit Expense screen offers Save/Delete on any row with no
+"not yours" gate, and the OpenAPI contract defines no 403 for this path) —
+so the closest automatable proxy is: edit/delete an expense that already
+exists in the shared pool and assert it succeeds with no ownership
+prompt/error. Noted as a caveat in the report rather than silently passed.
+
+**Known live-app defect found during exploration (not itself a criterion):**
+a hard refresh / direct navigation to a nested route (e.g. `/categories/new`)
+fails with "window._env_ not set" because `env-config.js` is requested
+relative to the current path instead of the site root. All specs below
+navigate via in-app link/button clicks from `/`, as a real user would,
+which does not hit this. Recorded in the report notes.
+
+**Known live-app defect found during exploration (blocks REQ-009):** every
+non-USD `POST /expenses` fails with `400 {"message":"could not convert
+currency to USD","description":"Not Found"}`, regardless of currency or
+date (confirmed directly against `expense-api`, and independently confirmed
+Frankfurter itself answers the same historical-date query fine) — the
+service cannot reach/parse its FX dependency. AC-009-a/b are authored to
+exercise the real flow and will fail honestly against the live app.
+
+## AC-001-a — An unauthenticated visitor cannot view expense data
+
+- Target: expense-webapp (primary)
+- Steps:
+  1. Fresh, unauthenticated context: navigate to `/`
+  2. Observe the redirect to Thunder's hosted login
+- Assert: a "Sign In" heading is visible (on the IdP page) and no
+  expense-webapp content ("Add Expense" heading) is ever rendered
+- Source of truth: `thunder-authentication` SKILL.md (OIDC redirect) +
+  live exploration (`/` → `.../gate/signin`)
+
+## AC-001-b — A household member can sign in via SSO and reach the app
+
+- Target: expense-webapp (primary)
+- Steps:
+  1. Navigate to `/`; fill Thunder's Username/Password; click Sign In
+  2. Observe landing back on the SPA
+- Assert: "Add Expense" heading visible, primary nav (Expenses/Totals/
+  Categories) visible
+- Source of truth: live exploration
+
+## AC-002-a — Submitting the add-expense form creates the expense
+
+- Target: expense-webapp (primary)
+- Steps:
+  1. Sign in; on Add Expense, fill Amount, Currency (USD), Category, Date
+  2. Save
+- Assert: navigation to `/expenses` and a row with the entered amount/
+  currency/category/date is visible
+- Source of truth: `expense-webapp/src/pages/AddExpensePage.tsx` + live
+  exploration
+
+## AC-003-a — A household member can edit an expense logged by the other member
+
+- Target: expense-webapp (primary)
+- Steps:
+  1. Sign in; create an expense (setup)
+  2. Open it from the Expenses list, change the amount, Save Changes
+- Assert: the updated amount is reflected in the Expenses list
+- Caveat: single test account — see plan header
+- Source of truth: live exploration (Edit Expense screen)
+
+## AC-003-b — A household member can delete an expense logged by the other member
+
+- Target: expense-webapp (primary)
+- Steps:
+  1. Sign in; create an expense (setup)
+  2. Open it, click Delete, confirm "Delete expense"
+- Assert: the row is no longer in the Expenses list
+- Caveat: single test account — see plan header
+
+## AC-004-a — The totals view shows a daily total
+
+- Target: expense-webapp (primary)
+- Steps: Sign in; go to Totals; Daily tab (default)
+- Assert: "This period" total (`$…`) is visible under the Daily tab
+
+## AC-004-b — The totals view shows a weekly total
+
+- Target: expense-webapp (primary)
+- Steps: Sign in; go to Totals; click Weekly
+- Assert: a period total is visible and the chart's week-period label
+  (`2026-Www` pattern) is shown
+
+## AC-004-c — The totals view shows a monthly total
+
+- Target: expense-webapp (primary)
+- Steps: Sign in; go to Totals; click Monthly
+- Assert: a period total is visible and the chart's month-period label
+  (`YYYY-MM` pattern) is shown
+
+## AC-004-d — The totals chart is stacked by household member
+
+- Target: expense-webapp (primary)
+- Steps: Sign in; go to Totals
+- Assert: chart accessible name is "Spending over time, stacked by
+  household member" and a legend entry for the signed-in member's
+  username is visible
+
+## AC-005-a — The categories view shows a total per category
+
+- Target: expense-webapp (primary)
+- Steps: Sign in; go to Categories
+- Assert: the categories table has a "Spent (USD)" column and at least
+  one category row shows a numeric spent total
+
+## AC-006-a — A household member can create a new category
+
+- Target: expense-webapp (primary)
+- Steps: Sign in; Categories → New Category; fill a unique name; Save
+- Assert: the new category appears in the Categories table
+
+## AC-006-b — A household member can rename an existing category
+
+- Target: expense-webapp (primary)
+- Steps: create a category (setup); open it; change the name; Save
+- Assert: the renamed category appears in the table under the new name
+
+## AC-006-c — A household member can remove a category
+
+- Target: expense-webapp (primary)
+- Steps: create a category (setup); open it; Delete; confirm "Delete
+  category"
+- Assert: the category no longer appears in the table
+
+## AC-007-a — A household member can set a limit on a category
+
+- Target: expense-webapp (primary)
+- Steps: Categories → New Category; fill name + Monthly Limit; Save
+- Assert: the Categories table shows the entered limit for that row
+
+## AC-007-b — A household member can change an existing category's limit
+
+- Target: expense-webapp (primary)
+- Steps: create a category with a limit (setup); open it; change the
+  limit; Save
+- Assert: the table reflects the new limit value
+
+## AC-008-a — A category under its limit shows no over-limit indicator
+
+- Target: expense-webapp (primary)
+- Steps: create a category with a high limit and no/low spend (setup)
+- Assert: its table row does NOT show the "Over Limit" badge
+
+## AC-008-b — A category over its limit shows a visually distinct indicator
+
+- Target: expense-webapp (primary)
+- Steps: create a category with a low limit (setup); log an expense
+  against it exceeding the limit
+- Assert: its table row shows the "Over Limit" badge
+
+## AC-009-a — A foreign-currency expense is included in USD totals
+
+- Target: expense-webapp (primary)
+- Steps: Sign in; Add Expense with a non-USD currency (EUR); Save
+- Assert: expense is created and its USD amount contributes to totals
+- Expected to fail honestly: live `expense-api` returns 400
+  ("could not convert currency to USD") for every non-USD amount —
+  see plan header
+
+## AC-009-b — The USD amount reflects the exchange rate on the logged date
+
+- Target: expense-webapp (primary)
+- Steps: create two EUR expenses of the same amount on two dates with
+  different historical Frankfurter rates (verified independently via
+  the `request` fixture against the real Frankfurter API); compare
+  their USD amounts
+- Assert: the two USD amounts differ in the direction the historical
+  rates predict (not both computed off "today's" rate)
+- Expected to fail honestly: creation itself 400s — see plan header
+
+## AC-010-a — A late-night local-timezone expense counts toward that local day
+
+- Target: expense-webapp (primary)
+- Steps: emulate browser timezone `Pacific/Honolulu` (UTC-10) with the
+  clock fixed to `2026-09-05T09:00:00Z` (23:00 local on 2026-09-04, but
+  already 2026-09-05 in UTC — the app's neutral/home reference); Add
+  Expense; confirm the default Date and the "current local timezone"
+  hint reflect the LOCAL date/zone; save; confirm the expense lists
+  under `2026-09-04`, not `2026-09-05`
+- Assert: expense date shown is the local day, not the UTC day
+- Source of truth: `expense-webapp/src/lib/date.ts` (`todayLocalISODate`,
+  `localTimezone` both derive from the JS engine's local clock/zone,
+  which Playwright's `timezoneId` + clock APIs control deterministically)
+
+## Manual criteria (rendered as checklist, not automated)
+
+- AC-002-b — the expense form does not require a currency conversion
+  before submitting
+- AC-008-c — no proactive notification is sent when a limit is crossed
