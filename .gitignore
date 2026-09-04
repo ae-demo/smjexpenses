@@ -1,0 +1,9 @@
+# Ballerina
+target/
+generated/
+Config.toml
+
+# Node / React
+node_modules/
+dist/
+*.local
