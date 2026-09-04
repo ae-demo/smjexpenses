@@ -4,7 +4,10 @@ import { loginAsHouseholdMember } from "../lib/auth";
 
 test("AC-009-a: a foreign-currency expense is included in USD totals", async ({ page }) => {
   await loginAsHouseholdMember(page);
-  const amount = "50";
+  // Unique amount so this run's row is unambiguous among pre-existing data —
+  // a fixed "50" collided with a row an earlier run had already created on
+  // this same shared live system.
+  const amount = (30 + (Date.now() % 900) / 100).toFixed(2);
 
   // 1. Log an expense in a non-USD currency
   await page.getByRole("spinbutton", { name: "Amount", exact: false }).fill(amount);
@@ -18,7 +21,7 @@ test("AC-009-a: a foreign-currency expense is included in USD totals", async ({ 
   // shared list (the criterion: it is "included in USD-denominated totals
   // and category summaries").
   await expect(page).toHaveURL(/\/expenses$/);
-  const row = page.getByRole("row", { name: new RegExp(`Food ${amount}\\.00 EUR`) });
+  const row = page.getByRole("row", { name: new RegExp(`Food ${amount} EUR`) });
   await expect(row).toBeVisible();
   // The USD column must show a computed (non-empty, numeric) conversion.
   await expect(row.getByRole("cell").nth(4)).toHaveText(/\d/);

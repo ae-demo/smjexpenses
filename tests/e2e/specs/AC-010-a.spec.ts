@@ -23,8 +23,6 @@ test("AC-010-a: a late-night local-timezone expense counts toward that local day
   // fake one installed below, so this still varies across re-runs.
   const amount = (40 + (Date.now() % 900) / 100).toFixed(2);
 
-  await page.clock.setFixedTime(new Date(FIXED_INSTANT));
-
   const username = process.env.AEP_E2E_USERNAME;
   const password = process.env.AEP_E2E_PASSWORD;
   if (!username || !password) {
@@ -37,6 +35,14 @@ test("AC-010-a: a late-night local-timezone expense counts toward that local day
   await page.getByRole("textbox", { name: "Username" }).fill(username);
   await page.getByRole("textbox", { name: "Password" }).fill(password);
   await page.getByRole("button", { name: "Sign In" }).click();
+  await expect(page.getByRole("heading", { name: "Add Expense" })).toBeVisible();
+
+  // Freeze the clock only after the OIDC handshake completes: the IdP's own
+  // token issuance/validation is time-sensitive (iat/exp, PKCE/session TTL),
+  // and faking the browser clock before that exchange reliably broke the
+  // redirect back from Thunder ("Invalid redirect URI").
+  await page.clock.setFixedTime(new Date(FIXED_INSTANT));
+  await page.reload();
   await expect(page.getByRole("heading", { name: "Add Expense" })).toBeVisible();
 
   // 1. The Add Expense form defaults to the LOCAL date/zone, not UTC's.
