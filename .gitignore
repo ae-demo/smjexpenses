@@ -1,6 +1,5 @@
 # Ballerina
 target/
-generated/
 Config.toml
 
 # Node / React
