@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "issue": 7,
-  "commit": "0b8ff268acd297575282aca0aa91315922a03578",
-  "generatedAt": "2026-09-04T05:25:26.377Z",
+  "commit": "14eb55ded04073c6cba9683b015772446ca29dc7",
+  "generatedAt": "2026-09-04T06:15:49.902Z",
   "playwrightVersion": "1.61.1",
   "totals": {
     "e2e": {
       "total": 20,
-      "pass": 18,
-      "fail": 2,
+      "pass": 20,
+      "fail": 0,
       "notRun": 0
     },
     "manual": 2,
@@ -25,7 +25,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 12072,
+      "durationMs": 11992,
       "failure": null
     },
     {
@@ -38,7 +38,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 13666,
+      "durationMs": 13647,
       "failure": null
     },
     {
@@ -51,7 +51,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14515,
+      "durationMs": 14748,
       "failure": null
     },
     {
@@ -77,7 +77,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15017,
+      "durationMs": 15128,
       "failure": null
     },
     {
@@ -90,7 +90,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15146,
+      "durationMs": 15728,
       "failure": null
     },
     {
@@ -103,7 +103,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 13571,
+      "durationMs": 14478,
       "failure": null
     },
     {
@@ -113,10 +113,10 @@
       "method": "e2e",
       "status": "pass",
       "spec": "tests/e2e/specs/AC-004-b.spec.ts",
-      "healed": false,
-      "healAttempts": 0,
+      "healed": true,
+      "healAttempts": 1,
       "flaky": false,
-      "durationMs": 13689,
+      "durationMs": 14416,
       "failure": null
     },
     {
@@ -126,10 +126,10 @@
       "method": "e2e",
       "status": "pass",
       "spec": "tests/e2e/specs/AC-004-c.spec.ts",
-      "healed": false,
-      "healAttempts": 0,
+      "healed": true,
+      "healAttempts": 1,
       "flaky": false,
-      "durationMs": 13632,
+      "durationMs": 14143,
       "failure": null
     },
     {
@@ -142,7 +142,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 13528,
+      "durationMs": 13850,
       "failure": null
     },
     {
@@ -155,7 +155,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15006,
+      "durationMs": 15564,
       "failure": null
     },
     {
@@ -168,7 +168,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 13904,
+      "durationMs": 15096,
       "failure": null
     },
     {
@@ -181,7 +181,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14286,
+      "durationMs": 14784,
       "failure": null
     },
     {
@@ -194,7 +194,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14929,
+      "durationMs": 15614,
       "failure": null
     },
     {
@@ -207,7 +207,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 13638,
+      "durationMs": 14473,
       "failure": null
     },
     {
@@ -220,7 +220,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14166,
+      "durationMs": 15567,
       "failure": null
     },
     {
@@ -233,7 +233,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14010,
+      "durationMs": 14820,
       "failure": null
     },
     {
@@ -246,7 +246,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14823,
+      "durationMs": 15392,
       "failure": null
     },
     {
@@ -267,32 +267,26 @@
       "requirementId": "REQ-009",
       "must": "A foreign-currency expense is included in USD-denominated totals and category summaries",
       "method": "e2e",
-      "status": "fail",
+      "status": "pass",
       "spec": "tests/e2e/specs/AC-009-a.spec.ts",
-      "healed": false,
-      "healAttempts": 0,
+      "healed": true,
+      "healAttempts": 1,
       "flaky": false,
-      "durationMs": 24475,
-      "failure": {
-        "message": "Error: expect(page).toHaveURL(expected) failed\n\nExpected pattern: /\\/expenses$/\nReceived string:  \"https://http-smjexpenses-e-development-default-63efde2c.apps.94.72.97.95.sslip.io/\"\nTimeout: 10000ms\n\nCall log:\n  - Expect \"toHaveURL\" with timeout 10000ms\n    24 × unexpected value \"https://http-smjexpenses-e-development-default-63efde2c.apps.94.72.97.95.sslip.io/\"\n",
-        "location": "AC-009-a.spec.ts:5"
-      }
+      "durationMs": 14755,
+      "failure": null
     },
     {
       "id": "AC-009-b",
       "requirementId": "REQ-009",
       "must": "The USD amount used for a foreign-currency expense reflects the exchange rate on that expense's logged date, not the current rate",
       "method": "e2e",
-      "status": "fail",
+      "status": "pass",
       "spec": "tests/e2e/specs/AC-009-b.spec.ts",
-      "healed": false,
-      "healAttempts": 0,
+      "healed": true,
+      "healAttempts": 2,
       "flaky": false,
-      "durationMs": 26595,
-      "failure": {
-        "message": "Error: expect(page).toHaveURL(expected) failed\n\nExpected pattern: /\\/expenses$/\nReceived string:  \"https://http-smjexpenses-e-development-default-63efde2c.apps.94.72.97.95.sslip.io/\"\nTimeout: 10000ms\n\nCall log:\n  - Expect \"toHaveURL\" with timeout 10000ms\n    24 × unexpected value \"https://http-smjexpenses-e-development-default-63efde2c.apps.94.72.97.95.sslip.io/\"\n",
-        "location": "AC-009-b.spec.ts:32"
-      }
+      "durationMs": 19826,
+      "failure": null
     },
     {
       "id": "AC-010-a",
@@ -301,10 +295,10 @@
       "method": "e2e",
       "status": "pass",
       "spec": "tests/e2e/specs/AC-010-a.spec.ts",
-      "healed": false,
-      "healAttempts": 0,
+      "healed": true,
+      "healAttempts": 1,
       "flaky": false,
-      "durationMs": 14848,
+      "durationMs": 15302,
       "failure": null
     }
   ]

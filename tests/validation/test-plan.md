@@ -205,3 +205,53 @@ exercise the real flow and will fail honestly against the live app.
 - AC-002-b — the expense form does not require a currency conversion
   before submitting
 - AC-008-c — no proactive notification is sent when a limit is crossed
+
+## Re-validation cycle (2026-09-04, issue #7 reopened after fix #9/#11)
+
+Ran the full committed regression set (all 20 e2e specs already existed;
+none authored fresh this cycle) against the redeployed system.
+
+**REQ-009 fix confirmed.** AC-009-a and AC-009-b, previously failing
+because `expense-api` could not reach its Frankfurter dependency, both
+pass now — the "could not convert currency to USD" 400 is gone and the
+USD amount tracks the historical rate on the expense's logged date, not
+today's rate.
+
+**Brittleness found and healed (all against the live app, not spec bugs
+in what they assert — see `tests/e2e/heal-log.json` for the mechanical
+record):**
+
+- AC-009-b, AC-009-a — fixed literal amounts (`100`, `50`) collided with
+  rows an earlier run had already created on this same shared, un-reset
+  live system. Switched both to a `Date.now()`-derived unique amount,
+  matching the convention AC-002-a already used.
+- AC-009-b — `getByRole("link", { name: "Add Expense" })` became
+  ambiguous once the test returned to `/expenses` between its two
+  submissions: that page renders its own "Add Expense" CTA button
+  alongside the persistent top-nav link. Scoped to the nav landmark
+  (`getByLabel("Primary")`).
+- AC-004-b, AC-004-c — the weekly/monthly totals chart now accumulates
+  one x-axis bucket per period of logged history (this run's own
+  AC-009/AC-010 specs log expenses on fixed past dates), so the exact
+  single-bucket locator the spec was authored against became a
+  strict-mode multi-match. Scoped to `.first()` — the criterion only
+  requires a bucket in the right format, not exactly one.
+- AC-010-a — freezing the page clock (`page.clock.setFixedTime`) *before*
+  the OIDC login redirect reliably broke the return trip from Thunder
+  with "Invalid redirect URI", reproduced twice in a row. Moved the
+  freeze to after login completes (plus a reload so the Add Expense form
+  picks up the frozen clock), which passed twice in a row after.
+
+**Unrelated transient flake, not healed (no spec touched):** the same
+Thunder gate error above appeared once each, non-reproducibly, on
+AC-004-d, AC-005-a, AC-007-a and AC-007-b across this cycle's runs, with
+no clock manipulation involved and no locator change needed — a focused
+re-run of each passed immediately. Treated as live IdP/session flake
+under this session's back-to-back logins, not a defect to report.
+
+**Caveats carried over, still true:** the single-test-account limitation
+on AC-003-a/b, and the nested-route `env-config.js` routing defect, both
+described above — neither re-verified this cycle since neither result
+changed.
+
+Result: 20/20 e2e criteria pass.
