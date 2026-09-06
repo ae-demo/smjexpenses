@@ -255,3 +255,17 @@ described above — neither re-verified this cycle since neither result
 changed.
 
 Result: 20/20 e2e criteria pass.
+
+## Re-validation cycle (2026-09-06, issue #7 judged again)
+
+Re-ran the full committed regression set (all 20 e2e specs, none authored
+or healed fresh this cycle) against the redeployed system. All 20 passed
+on the first attempt, no brittleness encountered, no heal-log entries
+added.
+
+**Caveats carried over, unchanged:** the single-test-account limitation on
+AC-003-a/b, and the nested-route `env-config.js` routing defect, both
+described above — neither re-verified this cycle since neither result
+changed.
+
+Result: 20/20 e2e criteria pass.
