@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "issue": 7,
-  "commit": "be403b3a96a8f802073b934182726a5016f44725",
-  "generatedAt": "2026-09-06T05:41:37.979Z",
+  "commit": "13ef80d02e4cfc05c44d98d06bd3248ed86c7555",
+  "generatedAt": "2026-09-06T06:28:59.898Z",
   "playwrightVersion": "1.61.1",
   "totals": {
     "e2e": {
@@ -25,7 +25,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 13113,
+      "durationMs": 12835,
       "failure": null
     },
     {
@@ -38,7 +38,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14037,
+      "durationMs": 13821,
       "failure": null
     },
     {
@@ -51,7 +51,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15139,
+      "durationMs": 14878,
       "failure": null
     },
     {
@@ -77,7 +77,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15325,
+      "durationMs": 15645,
       "failure": null
     },
     {
@@ -90,7 +90,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15666,
+      "durationMs": 15843,
       "failure": null
     },
     {
@@ -103,7 +103,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14614,
+      "durationMs": 14066,
       "failure": null
     },
     {
@@ -116,7 +116,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 13784,
+      "durationMs": 13972,
       "failure": null
     },
     {
@@ -129,7 +129,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 13882,
+      "durationMs": 13799,
       "failure": null
     },
     {
@@ -142,7 +142,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 13678,
+      "durationMs": 13562,
       "failure": null
     },
     {
@@ -155,7 +155,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15619,
+      "durationMs": 15376,
       "failure": null
     },
     {
@@ -168,7 +168,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14597,
+      "durationMs": 14234,
       "failure": null
     },
     {
@@ -181,7 +181,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15615,
+      "durationMs": 14905,
       "failure": null
     },
     {
@@ -194,7 +194,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15402,
+      "durationMs": 15406,
       "failure": null
     },
     {
@@ -207,7 +207,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14480,
+      "durationMs": 14438,
       "failure": null
     },
     {
@@ -220,7 +220,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14832,
+      "durationMs": 15357,
       "failure": null
     },
     {
@@ -233,7 +233,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14139,
+      "durationMs": 14647,
       "failure": null
     },
     {
@@ -246,7 +246,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15058,
+      "durationMs": 15596,
       "failure": null
     },
     {
@@ -272,7 +272,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 16785,
+      "durationMs": 15751,
       "failure": null
     },
     {
@@ -285,7 +285,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 17944,
+      "durationMs": 19377,
       "failure": null
     },
     {
@@ -298,7 +298,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14710,
+      "durationMs": 15172,
       "failure": null
     }
   ]
