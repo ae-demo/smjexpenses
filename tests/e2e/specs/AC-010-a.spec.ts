@@ -8,6 +8,7 @@
 // is how this spec fixes "late at night, traveling" without waiting for a
 // real midnight boundary.
 import { test, expect } from "@playwright/test";
+import { selectFirstAvailableCategory } from "../lib/category";
 
 const TRAVELER_TZ = "Pacific/Honolulu"; // UTC-10
 // 2026-09-05T09:00:00Z is 2026-09-04T23:00 local in Honolulu (late at
@@ -51,16 +52,15 @@ test("AC-010-a: a late-night local-timezone expense counts toward that local day
 
   // 2. Log the expense (leaving the defaulted date as-is)
   await page.getByRole("spinbutton", { name: "Amount", exact: false }).fill(amount);
-  await page.getByRole("combobox", { name: "Category", exact: false }).click();
-  await page.getByRole("option", { name: "Food" }).click();
+  const category = await selectFirstAvailableCategory(page);
   await page.getByRole("button", { name: "Save Expense" }).click();
   await expect(page).toHaveURL(/\/expenses$/);
 
   // Assert: it is filed under the traveler's local day, not the UTC day.
   await expect(
-    page.getByRole("row", { name: new RegExp(`^${LOCAL_DATE} Food ${amount}`) }),
+    page.getByRole("row", { name: new RegExp(`^${LOCAL_DATE} ${category} ${amount}`) }),
   ).toBeVisible();
   await expect(
-    page.getByRole("row", { name: new RegExp(`^${UTC_DATE} Food ${amount}`) }),
+    page.getByRole("row", { name: new RegExp(`^${UTC_DATE} ${category} ${amount}`) }),
   ).toHaveCount(0);
 });
