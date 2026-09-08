@@ -1,6 +1,7 @@
 // spec: tests/validation/test-plan.md § AC-002-a
 import { test, expect } from "@playwright/test";
 import { loginAsHouseholdMember } from "../lib/auth";
+import { selectFirstAvailableCategory } from "../lib/category";
 
 test("AC-002-a: submitting the add-expense form creates the expense", async ({ page }) => {
   await loginAsHouseholdMember(page);
@@ -10,8 +11,7 @@ test("AC-002-a: submitting the add-expense form creates the expense", async ({ p
 
   // 1. Fill amount, currency, category, date on the Add Expense form
   await page.getByRole("spinbutton", { name: "Amount", exact: false }).fill(amount);
-  await page.getByRole("combobox", { name: "Category", exact: false }).click();
-  await page.getByRole("option", { name: "Food" }).click();
+  const category = await selectFirstAvailableCategory(page);
   // Currency defaults to USD and Date defaults to today — both required by
   // the criterion and left as-is.
 
@@ -21,6 +21,6 @@ test("AC-002-a: submitting the add-expense form creates the expense", async ({ p
   // Assert: creation succeeds (redirect to the shared Expenses list) and the
   // new row is visible with the entered amount/currency/category.
   await expect(page).toHaveURL(/\/expenses$/);
-  const row = page.getByRole("row", { name: new RegExp(`Food ${amount} USD`) });
+  const row = page.getByRole("row", { name: new RegExp(`${category} ${amount} USD`) });
   await expect(row).toBeVisible();
 });
