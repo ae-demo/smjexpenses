@@ -6,6 +6,7 @@
 // expense already in the shared pool.
 import { test, expect } from "@playwright/test";
 import { loginAsHouseholdMember } from "../lib/auth";
+import { selectFirstAvailableCategory } from "../lib/category";
 
 test("AC-003-b: a household member can delete an expense in the shared pool", async ({ page }) => {
   await loginAsHouseholdMember(page);
@@ -13,11 +14,10 @@ test("AC-003-b: a household member can delete an expense in the shared pool", as
   // Setup: log an expense to delete.
   const amount = (30 + (Date.now() % 900) / 100).toFixed(2);
   await page.getByRole("spinbutton", { name: "Amount", exact: false }).fill(amount);
-  await page.getByRole("combobox", { name: "Category", exact: false }).click();
-  await page.getByRole("option", { name: "Food" }).click();
+  const category = await selectFirstAvailableCategory(page);
   await page.getByRole("button", { name: "Save Expense" }).click();
   await expect(page).toHaveURL(/\/expenses$/);
-  const row = page.getByRole("row", { name: new RegExp(`Food ${amount} USD`) });
+  const row = page.getByRole("row", { name: new RegExp(`${category} ${amount} USD`) });
   await expect(row).toBeVisible();
 
   // 1. Open it and delete
@@ -29,5 +29,5 @@ test("AC-003-b: a household member can delete an expense in the shared pool", as
   // Assert: the row is gone from the shared list — no ownership prompt/error
   // blocked it.
   await expect(page).toHaveURL(/\/expenses$/);
-  await expect(page.getByRole("row", { name: new RegExp(`Food ${amount} USD`) })).toHaveCount(0);
+  await expect(page.getByRole("row", { name: new RegExp(`${category} ${amount} USD`) })).toHaveCount(0);
 });
