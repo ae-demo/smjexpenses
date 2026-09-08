@@ -1,6 +1,7 @@
 // spec: tests/validation/test-plan.md § AC-009-b
 import { test, expect } from "@playwright/test";
 import { loginAsHouseholdMember } from "../lib/auth";
+import { selectFirstAvailableCategory } from "../lib/category";
 
 // Two past dates far enough apart that Frankfurter's EUR->USD rate on each
 // almost certainly differs, so a wrong implementation that always uses
@@ -44,6 +45,11 @@ test("AC-009-b: the USD amount reflects the exchange rate on the logged date", a
   // "100" collided with rows an earlier cycle had already created).
   const amount = (20 + (Date.now() % 900) / 100).toFixed(2);
 
+  // Fixed across both log calls: the picker's ordering only depends on
+  // existing categories, which don't change mid-test, so the same category
+  // is offered both times.
+  let category = "";
+
   async function logEurExpense(month: string, day: string): Promise<void> {
     // Scoped to the top nav landmark: the Expenses list page also shows its
     // own "Add Expense" CTA button, which otherwise makes this a
@@ -52,20 +58,19 @@ test("AC-009-b: the USD amount reflects the exchange rate on the logged date", a
     await page.getByRole("spinbutton", { name: "Amount", exact: false }).fill(amount);
     await page.getByRole("combobox", { name: "Currency", exact: false }).click();
     await page.getByRole("option", { name: "EUR", exact: true }).click();
-    await page.getByRole("combobox", { name: "Category", exact: false }).click();
-    await page.getByRole("option", { name: "Food" }).click();
+    category = await selectFirstAvailableCategory(page);
     await selectDate(page, month, day);
     await page.getByRole("button", { name: "Save Expense" }).click();
     await expect(page).toHaveURL(/\/expenses$/);
   }
 
   await logEurExpense(OLDER_DATE.month, OLDER_DATE.day);
-  const olderRow = page.getByRole("row", { name: new RegExp(`${OLDER_DATE.iso} Food ${amount} EUR`) });
+  const olderRow = page.getByRole("row", { name: new RegExp(`${OLDER_DATE.iso} ${category} ${amount} EUR`) });
   await expect(olderRow).toBeVisible();
   const olderUsdText = await olderRow.getByRole("cell").nth(4).textContent();
 
   await logEurExpense(NEWER_DATE.month, NEWER_DATE.day);
-  const newerRow = page.getByRole("row", { name: new RegExp(`${NEWER_DATE.iso} Food ${amount} EUR`) });
+  const newerRow = page.getByRole("row", { name: new RegExp(`${NEWER_DATE.iso} ${category} ${amount} EUR`) });
   await expect(newerRow).toBeVisible();
   const newerUsdText = await newerRow.getByRole("cell").nth(4).textContent();
 
