@@ -6,6 +6,7 @@
 // expense already in the shared pool.
 import { test, expect } from "@playwright/test";
 import { loginAsHouseholdMember } from "../lib/auth";
+import { selectFirstAvailableCategory } from "../lib/category";
 
 test("AC-003-a: a household member can edit an expense in the shared pool", async ({ page }) => {
   await loginAsHouseholdMember(page);
@@ -13,13 +14,12 @@ test("AC-003-a: a household member can edit an expense in the shared pool", asyn
   // Setup: log an expense to edit.
   const originalAmount = (20 + (Date.now() % 900) / 100).toFixed(2);
   await page.getByRole("spinbutton", { name: "Amount", exact: false }).fill(originalAmount);
-  await page.getByRole("combobox", { name: "Category", exact: false }).click();
-  await page.getByRole("option", { name: "Food" }).click();
+  const category = await selectFirstAvailableCategory(page);
   await page.getByRole("button", { name: "Save Expense" }).click();
   await expect(page).toHaveURL(/\/expenses$/);
 
   // 1. Open the newly logged expense from the shared list
-  await page.getByRole("row", { name: new RegExp(`Food ${originalAmount} USD`) }).click();
+  await page.getByRole("row", { name: new RegExp(`${category} ${originalAmount} USD`) }).click();
   await expect(page.getByRole("heading", { name: "Edit Expense" })).toBeVisible();
 
   // 2. Change the amount and save
@@ -30,5 +30,5 @@ test("AC-003-a: a household member can edit an expense in the shared pool", asyn
   // Assert: the shared list reflects the edit — no ownership prompt/error
   // blocked it.
   await expect(page).toHaveURL(/\/expenses$/);
-  await expect(page.getByRole("row", { name: new RegExp(`Food ${newAmount} USD`) })).toBeVisible();
+  await expect(page.getByRole("row", { name: new RegExp(`${category} ${newAmount} USD`) })).toBeVisible();
 });
