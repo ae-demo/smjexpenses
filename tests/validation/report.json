@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "issue": 7,
-  "commit": "f79b878037f8fb2c870c6e5a646d696b42194f3a",
-  "generatedAt": "2026-09-07T06:48:52.126Z",
+  "commit": "af78f76ded9d833e0dd2941c4fb0c3cf79f5aaca",
+  "generatedAt": "2026-09-08T06:30:06.577Z",
   "playwrightVersion": "1.61.1",
   "totals": {
     "e2e": {
       "total": 20,
-      "pass": 20,
-      "fail": 0,
+      "pass": 16,
+      "fail": 4,
       "notRun": 0
     },
     "manual": 2,
@@ -20,26 +20,32 @@
       "requirementId": "REQ-001",
       "must": "An unauthenticated visitor cannot view expense data",
       "method": "e2e",
-      "status": "pass",
+      "status": "fail",
       "spec": "tests/e2e/specs/AC-001-a.spec.ts",
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 12181,
-      "failure": null
+      "durationMs": 21023,
+      "failure": {
+        "message": "TimeoutError: page.waitForURL: Timeout 20000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://thunder.94.72.97.95.sslip.io/gate/error?errorCode=invalid_request&errorMessage=Invalid+redirect+URI\"\n  navigated to \"https://thunder.94.72.97.95.sslip.io/gate/error?errorCode=invalid_request&errorMessage=Invalid+redirect+URI\"\n============================================================",
+        "location": "AC-001-a.spec.ts:4"
+      }
     },
     {
       "id": "AC-001-b",
       "requirementId": "REQ-001",
       "must": "A household member can sign in via SSO and reach the app",
       "method": "e2e",
-      "status": "pass",
+      "status": "fail",
       "spec": "tests/e2e/specs/AC-001-b.spec.ts",
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14438,
-      "failure": null
+      "durationMs": 30458,
+      "failure": {
+        "message": "Test timeout of 30000ms exceeded.",
+        "location": "AC-001-b.spec.ts:5"
+      }
     },
     {
       "id": "AC-002-a",
@@ -48,10 +54,10 @@
       "method": "e2e",
       "status": "pass",
       "spec": "tests/e2e/specs/AC-002-a.spec.ts",
-      "healed": false,
-      "healAttempts": 0,
+      "healed": true,
+      "healAttempts": 1,
       "flaky": false,
-      "durationMs": 14979,
+      "durationMs": 14917,
       "failure": null
     },
     {
@@ -74,10 +80,10 @@
       "method": "e2e",
       "status": "pass",
       "spec": "tests/e2e/specs/AC-003-a.spec.ts",
-      "healed": false,
-      "healAttempts": 0,
+      "healed": true,
+      "healAttempts": 1,
       "flaky": false,
-      "durationMs": 16480,
+      "durationMs": 16235,
       "failure": null
     },
     {
@@ -87,10 +93,10 @@
       "method": "e2e",
       "status": "pass",
       "spec": "tests/e2e/specs/AC-003-b.spec.ts",
-      "healed": false,
-      "healAttempts": 0,
+      "healed": true,
+      "healAttempts": 1,
       "flaky": false,
-      "durationMs": 16356,
+      "durationMs": 16679,
       "failure": null
     },
     {
@@ -103,7 +109,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14512,
+      "durationMs": 14106,
       "failure": null
     },
     {
@@ -116,7 +122,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14709,
+      "durationMs": 14107,
       "failure": null
     },
     {
@@ -129,7 +135,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14071,
+      "durationMs": 14065,
       "failure": null
     },
     {
@@ -142,7 +148,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14215,
+      "durationMs": 14327,
       "failure": null
     },
     {
@@ -155,7 +161,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15536,
+      "durationMs": 16209,
       "failure": null
     },
     {
@@ -168,7 +174,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14570,
+      "durationMs": 14739,
       "failure": null
     },
     {
@@ -181,7 +187,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15714,
+      "durationMs": 15375,
       "failure": null
     },
     {
@@ -194,7 +200,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14969,
+      "durationMs": 15911,
       "failure": null
     },
     {
@@ -207,7 +213,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14780,
+      "durationMs": 15077,
       "failure": null
     },
     {
@@ -220,7 +226,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14929,
+      "durationMs": 15835,
       "failure": null
     },
     {
@@ -233,7 +239,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15262,
+      "durationMs": 15080,
       "failure": null
     },
     {
@@ -241,13 +247,16 @@
       "requirementId": "REQ-008",
       "must": "A category over its limit shows a visually distinct over-limit indicator",
       "method": "e2e",
-      "status": "pass",
+      "status": "fail",
       "spec": "tests/e2e/specs/AC-008-b.spec.ts",
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 16658,
-      "failure": null
+      "durationMs": 30934,
+      "failure": {
+        "message": "Test timeout of 30000ms exceeded.",
+        "location": "AC-008-b.spec.ts:5"
+      }
     },
     {
       "id": "AC-008-c",
@@ -269,10 +278,10 @@
       "method": "e2e",
       "status": "pass",
       "spec": "tests/e2e/specs/AC-009-a.spec.ts",
-      "healed": false,
-      "healAttempts": 0,
+      "healed": true,
+      "healAttempts": 1,
       "flaky": false,
-      "durationMs": 15216,
+      "durationMs": 16472,
       "failure": null
     },
     {
@@ -280,13 +289,16 @@
       "requirementId": "REQ-009",
       "must": "The USD amount used for a foreign-currency expense reflects the exchange rate on that expense's logged date, not the current rate",
       "method": "e2e",
-      "status": "pass",
+      "status": "fail",
       "spec": "tests/e2e/specs/AC-009-b.spec.ts",
-      "healed": false,
-      "healAttempts": 0,
+      "healed": true,
+      "healAttempts": 1,
       "flaky": false,
-      "durationMs": 18660,
-      "failure": null
+      "durationMs": 27971,
+      "failure": {
+        "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('row', { name: /2026-06-01 AC-005-a-1788497690091 24.88 EUR/ })\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 10000ms\n  - waiting for getByRole('row', { name: /2026-06-01 AC-005-a-1788497690091 24.88 EUR/ })\n",
+        "location": "AC-009-b.spec.ts:33"
+      }
     },
     {
       "id": "AC-010-a",
@@ -295,10 +307,10 @@
       "method": "e2e",
       "status": "pass",
       "spec": "tests/e2e/specs/AC-010-a.spec.ts",
-      "healed": false,
-      "healAttempts": 0,
+      "healed": true,
+      "healAttempts": 1,
       "flaky": false,
-      "durationMs": 15064,
+      "durationMs": 16400,
       "failure": null
     }
   ]
