@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "issue": 7,
-  "commit": "af78f76ded9d833e0dd2941c4fb0c3cf79f5aaca",
-  "generatedAt": "2026-09-08T06:30:06.577Z",
+  "commit": "28adf4c6ea5c5ccfa588b4fc23135c4ba4856750",
+  "generatedAt": "2026-09-09T07:05:48.532Z",
   "playwrightVersion": "1.61.1",
   "totals": {
     "e2e": {
@@ -20,32 +20,26 @@
       "requirementId": "REQ-001",
       "must": "An unauthenticated visitor cannot view expense data",
       "method": "e2e",
-      "status": "fail",
+      "status": "pass",
       "spec": "tests/e2e/specs/AC-001-a.spec.ts",
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 21023,
-      "failure": {
-        "message": "TimeoutError: page.waitForURL: Timeout 20000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation until \"load\"\n  navigated to \"https://thunder.94.72.97.95.sslip.io/gate/error?errorCode=invalid_request&errorMessage=Invalid+redirect+URI\"\n  navigated to \"https://thunder.94.72.97.95.sslip.io/gate/error?errorCode=invalid_request&errorMessage=Invalid+redirect+URI\"\n============================================================",
-        "location": "AC-001-a.spec.ts:4"
-      }
+      "durationMs": 12408,
+      "failure": null
     },
     {
       "id": "AC-001-b",
       "requirementId": "REQ-001",
       "must": "A household member can sign in via SSO and reach the app",
       "method": "e2e",
-      "status": "fail",
+      "status": "pass",
       "spec": "tests/e2e/specs/AC-001-b.spec.ts",
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 30458,
-      "failure": {
-        "message": "Test timeout of 30000ms exceeded.",
-        "location": "AC-001-b.spec.ts:5"
-      }
+      "durationMs": 14587,
+      "failure": null
     },
     {
       "id": "AC-002-a",
@@ -57,7 +51,7 @@
       "healed": true,
       "healAttempts": 1,
       "flaky": false,
-      "durationMs": 14917,
+      "durationMs": 15135,
       "failure": null
     },
     {
@@ -83,7 +77,7 @@
       "healed": true,
       "healAttempts": 1,
       "flaky": false,
-      "durationMs": 16235,
+      "durationMs": 17008,
       "failure": null
     },
     {
@@ -96,7 +90,7 @@
       "healed": true,
       "healAttempts": 1,
       "flaky": false,
-      "durationMs": 16679,
+      "durationMs": 16660,
       "failure": null
     },
     {
@@ -109,7 +103,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14106,
+      "durationMs": 14067,
       "failure": null
     },
     {
@@ -122,7 +116,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14107,
+      "durationMs": 14148,
       "failure": null
     },
     {
@@ -135,7 +129,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14065,
+      "durationMs": 15141,
       "failure": null
     },
     {
@@ -148,7 +142,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14327,
+      "durationMs": 13846,
       "failure": null
     },
     {
@@ -161,7 +155,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 16209,
+      "durationMs": 15624,
       "failure": null
     },
     {
@@ -174,7 +168,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14739,
+      "durationMs": 14637,
       "failure": null
     },
     {
@@ -187,7 +181,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15375,
+      "durationMs": 15296,
       "failure": null
     },
     {
@@ -200,7 +194,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15911,
+      "durationMs": 15428,
       "failure": null
     },
     {
@@ -213,7 +207,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15077,
+      "durationMs": 14438,
       "failure": null
     },
     {
@@ -226,7 +220,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15835,
+      "durationMs": 15089,
       "failure": null
     },
     {
@@ -234,13 +228,16 @@
       "requirementId": "REQ-008",
       "must": "A category under its limit does not show an over-limit indicator",
       "method": "e2e",
-      "status": "pass",
+      "status": "fail",
       "spec": "tests/e2e/specs/AC-008-a.spec.ts",
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15080,
-      "failure": null
+      "durationMs": 30366,
+      "failure": {
+        "message": "Test timeout of 30000ms exceeded.",
+        "location": "AC-008-a.spec.ts:5"
+      }
     },
     {
       "id": "AC-008-b",
@@ -252,7 +249,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 30934,
+      "durationMs": 30403,
       "failure": {
         "message": "Test timeout of 30000ms exceeded.",
         "location": "AC-008-b.spec.ts:5"
@@ -276,13 +273,16 @@
       "requirementId": "REQ-009",
       "must": "A foreign-currency expense is included in USD-denominated totals and category summaries",
       "method": "e2e",
-      "status": "pass",
+      "status": "fail",
       "spec": "tests/e2e/specs/AC-009-a.spec.ts",
       "healed": true,
       "healAttempts": 1,
       "flaky": false,
-      "durationMs": 16472,
-      "failure": null
+      "durationMs": 30452,
+      "failure": {
+        "message": "Test timeout of 30000ms exceeded.",
+        "location": "AC-009-a.spec.ts:6"
+      }
     },
     {
       "id": "AC-009-b",
@@ -294,9 +294,9 @@
       "healed": true,
       "healAttempts": 1,
       "flaky": false,
-      "durationMs": 27971,
+      "durationMs": 30391,
       "failure": {
-        "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('row', { name: /2026-06-01 AC-005-a-1788497690091 24.88 EUR/ })\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 10000ms\n  - waiting for getByRole('row', { name: /2026-06-01 AC-005-a-1788497690091 24.88 EUR/ })\n",
+        "message": "Test timeout of 30000ms exceeded.",
         "location": "AC-009-b.spec.ts:33"
       }
     },
@@ -310,7 +310,7 @@
       "healed": true,
       "healAttempts": 1,
       "flaky": false,
-      "durationMs": 16400,
+      "durationMs": 14967,
       "failure": null
     }
   ]
