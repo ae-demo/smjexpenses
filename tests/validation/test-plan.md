@@ -342,3 +342,48 @@ described above.
 
 Result: 16/20 e2e criteria pass (2 genuine failures: AC-008-b, AC-009-b;
 2 suspected-transient IdP-flake failures: AC-001-a, AC-001-b).
+
+## Re-validation cycle (2026-09-09, issue #7 judged again)
+
+Re-ran the full committed regression set (all 20 e2e specs, none authored
+or healed fresh this cycle) against the redeployed system.
+
+**Pagination-cliff defect confirmed still present, worse than 2026-09-08.**
+Verified live via an authenticated `fetch` from the signed-in session
+(`GET /api/categories?limit=1` → `count: 123`; `GET /api/expenses?limit=1`
+→ `count: 132`), and confirmed the categories endpoint's first `limit=100`
+page (sorted alphabetically ascending) now runs from `AC-005-a-...` to
+`AC-008-a-...` — so any category named `AC-008-b-*` sorts immediately past
+the cutoff and is unreachable in the Add-Expense picker. Same root cause as
+the 2026-09-08 cycle (`GET /categories` and `GET /expenses` both cap at
+`limit=100` with a `next` cursor the frontend never follows); no fix has
+landed since. **AC-008-b** and **AC-009-b** fail for exactly the reasons
+recorded on 2026-09-08 — not healed, reported as genuine per the healing
+discipline (an app defect, not a test bug).
+
+**IdP login flake, still present, still not reproducible.** The initial
+full run failed AC-004-b/c/d and AC-005-a on Thunder's
+`invalid_request: Invalid redirect URI` gate error during the OIDC
+callback; a focused re-run of those 4 passed cleanly. A second full run
+(intended as final) then hit the identical error on a different set —
+AC-006-a/b/c and AC-007-a; a focused re-run of those 4 also passed
+cleanly. Heal budget (2 focused re-run waves) was then spent, so per the
+healing discipline the next full run's result was taken as authoritative
+rather than chased further. That run hit the same flake once more, this
+time on **AC-008-a** and **AC-009-a** — no locator or app-behavior issue
+either time, and no spec was touched at any point (there is nothing to
+heal in the spec code for a transient IdP error on the login redirect
+itself). Consistent with every prior cycle's notes: the flake lands on a
+handful of specs at random each run and clears on a bare re-run, so this
+is reported as environment noise, not a defect, and AC-008-a/AC-009-a are
+marked suspected-flake below rather than confirmed-genuine (unlike
+AC-008-b/AC-009-b, which were independently confirmed live).
+
+**Caveats carried over, unchanged:** the single-test-account limitation on
+AC-003-a/b, and the nested-route `env-config.js` routing defect, both
+described above.
+
+Result: 16/20 e2e criteria pass on the authoritative final run (2 genuine,
+independently-confirmed failures: AC-008-b, AC-009-b; 2 suspected-transient
+IdP-flake failures: AC-008-a, AC-009-a — both passed earlier in this same
+session with no code change).
