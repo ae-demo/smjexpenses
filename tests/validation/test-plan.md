@@ -255,3 +255,135 @@ described above — neither re-verified this cycle since neither result
 changed.
 
 Result: 20/20 e2e criteria pass.
+
+## Re-validation cycle (2026-09-06, issue #7 judged again)
+
+Re-ran the full committed regression set (all 20 e2e specs, none authored
+or healed fresh this cycle) against the redeployed system. All 20 passed
+on the first attempt, no brittleness encountered, no heal-log entries
+added.
+
+**Caveats carried over, unchanged:** the single-test-account limitation on
+AC-003-a/b, and the nested-route `env-config.js` routing defect, both
+described above — neither re-verified this cycle since neither result
+changed.
+
+Result: 20/20 e2e criteria pass.
+
+## Re-validation cycle (2026-09-08, issue #7 judged again)
+
+Re-ran the full committed regression set against the redeployed system.
+The initial full run failed 5 specs (AC-003-a/b, AC-009-a/b, AC-010-a) on
+`getByRole('option', { name: 'Food' })` timing out. Live re-drive (direct
+`GET /api/categories?limit=100`) found the root cause: this shared,
+never-reset system has accumulated **102+ categories** — almost entirely
+throwaway ones created by every prior validation cycle's AC-006/007/008
+specs, which create categories but mostly never delete them — and the
+category picker only ever fetches the first page (`limit=100`, no further
+fetch, no type-ahead filter, no infinite scroll: confirmed live, typing
+into the combobox does not filter it and scrolling the listbox to its end
+fires no follow-up request). The response does carry `count` and a `next`
+cursor (`/categories?limit=100&offset=100`) — the frontend just never
+follows it. Sorted alphabetically ascending, the seed `Food` category (and
+anything else sorting late) is now permanently past the cutoff.
+
+None of AC-002-a, AC-003-a/b, AC-009-a/b, or AC-010-a care *which*
+category is used, so this is brittleness in the test's literal, not a
+result the criterion depends on — healed by selecting whatever the picker
+actually offers instead of a hardcoded name (see heal-log; also applied to
+AC-002-a, which hit the identical failure on a later run once more
+categories had accumulated in between).
+
+**Newly found, genuine defect (same root cause, not healed):** the
+**same** `limit=100`-with-no-follow-through pattern exists on
+`GET /api/expenses`, sorted by `expenseDate` descending, now past **117
+total expenses**. AC-009-b deliberately logs expenses dated far in the
+past (2026-06-01, 2026-08-15) to prove historical-FX-rate handling;
+verified live (direct `POST /expenses` + immediate `GET /expenses`) that a
+just-created expense dated 2026-06-01 does not appear anywhere in the
+returned page, because enough more-recently-*dated* expenses (mostly
+today-dated, from every cycle's other specs) now fill the entire window.
+This will only get worse: every cycle adds ~10 more today-dated expenses
+and never removes any. A household member genuinely cannot view, and
+therefore cannot audit, an older expense's computed USD amount once this
+threshold is crossed — there is no search/pagination affordance on the
+Expenses page either. Not healed: AC-009-b's criterion is specifically
+about the recorded USD amount for a *past-dated* expense, which is exactly
+what this defect makes unobservable. (Aggregates are unaffected: `/totals`
+and `/categories/totals` are separate, unpaginated, server-computed
+endpoints, confirmed live — so AC-004/AC-005/AC-007/AC-008's own
+assertions, which read from those, are not at risk from this.)
+
+**AC-008-b failed for the same defect, also not healed:** it creates a
+fresh category and must select that *same* category on the Add Expense
+form to log the over-limit expense — by design, it can't substitute a
+different, already-reachable category the way AC-002-a/003/009-a/010-a
+could. Once the category pool crossed the cutoff for entries sorting as
+late as `AC-008-b-*`, the freshly created category became unreachable in
+the picker, identically to the `Food` case above. The category itself is
+created fine and is fully visible on the Categories page (which reads the
+unpaginated `/categories/totals` endpoint) — only the Add-Expense picker
+can't reach it.
+
+**AC-001-a and AC-001-b failed on the final authoritative run** with
+Thunder's `invalid_request: Invalid redirect URI` gate error during
+login — the same non-reproducible IdP flake noted in the 2026-09-04 cycle
+report (there, it hit 4 different specs once each; a bare re-run cleared
+it every time, no code change). The heal budget (2 focused re-run waves)
+was already spent on the category-picker defect above by the time this
+appeared on the final run, so per the healing discipline this was left as
+the authoritative, reported result rather than chased with a further,
+budget-exceeding re-run. Likely the same flake, not re-verified this
+cycle.
+
+**Caveats carried over, unchanged:** the single-test-account limitation on
+AC-003-a/b, and the nested-route `env-config.js` routing defect, both
+described above.
+
+Result: 16/20 e2e criteria pass (2 genuine failures: AC-008-b, AC-009-b;
+2 suspected-transient IdP-flake failures: AC-001-a, AC-001-b).
+
+## Re-validation cycle (2026-09-09, issue #7 judged again)
+
+Re-ran the full committed regression set (all 20 e2e specs, none authored
+or healed fresh this cycle) against the redeployed system.
+
+**Pagination-cliff defect confirmed still present, worse than 2026-09-08.**
+Verified live via an authenticated `fetch` from the signed-in session
+(`GET /api/categories?limit=1` → `count: 123`; `GET /api/expenses?limit=1`
+→ `count: 132`), and confirmed the categories endpoint's first `limit=100`
+page (sorted alphabetically ascending) now runs from `AC-005-a-...` to
+`AC-008-a-...` — so any category named `AC-008-b-*` sorts immediately past
+the cutoff and is unreachable in the Add-Expense picker. Same root cause as
+the 2026-09-08 cycle (`GET /categories` and `GET /expenses` both cap at
+`limit=100` with a `next` cursor the frontend never follows); no fix has
+landed since. **AC-008-b** and **AC-009-b** fail for exactly the reasons
+recorded on 2026-09-08 — not healed, reported as genuine per the healing
+discipline (an app defect, not a test bug).
+
+**IdP login flake, still present, still not reproducible.** The initial
+full run failed AC-004-b/c/d and AC-005-a on Thunder's
+`invalid_request: Invalid redirect URI` gate error during the OIDC
+callback; a focused re-run of those 4 passed cleanly. A second full run
+(intended as final) then hit the identical error on a different set —
+AC-006-a/b/c and AC-007-a; a focused re-run of those 4 also passed
+cleanly. Heal budget (2 focused re-run waves) was then spent, so per the
+healing discipline the next full run's result was taken as authoritative
+rather than chased further. That run hit the same flake once more, this
+time on **AC-008-a** and **AC-009-a** — no locator or app-behavior issue
+either time, and no spec was touched at any point (there is nothing to
+heal in the spec code for a transient IdP error on the login redirect
+itself). Consistent with every prior cycle's notes: the flake lands on a
+handful of specs at random each run and clears on a bare re-run, so this
+is reported as environment noise, not a defect, and AC-008-a/AC-009-a are
+marked suspected-flake below rather than confirmed-genuine (unlike
+AC-008-b/AC-009-b, which were independently confirmed live).
+
+**Caveats carried over, unchanged:** the single-test-account limitation on
+AC-003-a/b, and the nested-route `env-config.js` routing defect, both
+described above.
+
+Result: 16/20 e2e criteria pass on the authoritative final run (2 genuine,
+independently-confirmed failures: AC-008-b, AC-009-b; 2 suspected-transient
+IdP-flake failures: AC-008-a, AC-009-a — both passed earlier in this same
+session with no code change).
