@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "issue": 7,
-  "commit": "28adf4c6ea5c5ccfa588b4fc23135c4ba4856750",
-  "generatedAt": "2026-09-09T07:05:48.532Z",
+  "commit": "54582253f6044b65115b5370d8fbf7086a113f45",
+  "generatedAt": "2026-09-10T07:24:38.908Z",
   "playwrightVersion": "1.61.1",
   "totals": {
     "e2e": {
       "total": 20,
-      "pass": 16,
-      "fail": 4,
+      "pass": 17,
+      "fail": 3,
       "notRun": 0
     },
     "manual": 2,
@@ -25,7 +25,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 12408,
+      "durationMs": 12337,
       "failure": null
     },
     {
@@ -38,7 +38,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14587,
+      "durationMs": 13795,
       "failure": null
     },
     {
@@ -51,7 +51,7 @@
       "healed": true,
       "healAttempts": 1,
       "flaky": false,
-      "durationMs": 15135,
+      "durationMs": 15354,
       "failure": null
     },
     {
@@ -77,7 +77,7 @@
       "healed": true,
       "healAttempts": 1,
       "flaky": false,
-      "durationMs": 17008,
+      "durationMs": 15853,
       "failure": null
     },
     {
@@ -90,7 +90,7 @@
       "healed": true,
       "healAttempts": 1,
       "flaky": false,
-      "durationMs": 16660,
+      "durationMs": 16510,
       "failure": null
     },
     {
@@ -103,7 +103,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14067,
+      "durationMs": 14098,
       "failure": null
     },
     {
@@ -116,7 +116,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14148,
+      "durationMs": 14903,
       "failure": null
     },
     {
@@ -129,7 +129,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15141,
+      "durationMs": 15526,
       "failure": null
     },
     {
@@ -142,7 +142,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 13846,
+      "durationMs": 14843,
       "failure": null
     },
     {
@@ -155,7 +155,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15624,
+      "durationMs": 16322,
       "failure": null
     },
     {
@@ -168,7 +168,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14637,
+      "durationMs": 14607,
       "failure": null
     },
     {
@@ -181,7 +181,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15296,
+      "durationMs": 15502,
       "failure": null
     },
     {
@@ -194,7 +194,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15428,
+      "durationMs": 15662,
       "failure": null
     },
     {
@@ -207,7 +207,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 14438,
+      "durationMs": 14474,
       "failure": null
     },
     {
@@ -215,29 +215,29 @@
       "requirementId": "REQ-007",
       "must": "A household member can change an existing category's limit",
       "method": "e2e",
-      "status": "pass",
+      "status": "fail",
       "spec": "tests/e2e/specs/AC-007-b.spec.ts",
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 15089,
-      "failure": null
+      "durationMs": 27649,
+      "failure": {
+        "message": "Error: expect(page).toHaveURL(expected) failed\n\nExpected pattern: /\\/categories$/\nReceived string:  \"https://http-smjexpenses-e-development-default-63efde2c.apps.94.72.97.95.sslip.io/categories/cedaa477-a491-418e-8bad-111b6e32ad74\"\nTimeout: 10000ms\n\nCall log:\n  - Expect \"toHaveURL\" with timeout 10000ms\n    23 × unexpected value \"https://http-smjexpenses-e-development-default-63efde2c.apps.94.72.97.95.sslip.io/categories/cedaa477-a491-418e-8bad-111b6e32ad74\"\n",
+        "location": "AC-007-b.spec.ts:5"
+      }
     },
     {
       "id": "AC-008-a",
       "requirementId": "REQ-008",
       "must": "A category under its limit does not show an over-limit indicator",
       "method": "e2e",
-      "status": "fail",
+      "status": "pass",
       "spec": "tests/e2e/specs/AC-008-a.spec.ts",
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 30366,
-      "failure": {
-        "message": "Test timeout of 30000ms exceeded.",
-        "location": "AC-008-a.spec.ts:5"
-      }
+      "durationMs": 15967,
+      "failure": null
     },
     {
       "id": "AC-008-b",
@@ -249,7 +249,7 @@
       "healed": false,
       "healAttempts": 0,
       "flaky": false,
-      "durationMs": 30403,
+      "durationMs": 30768,
       "failure": {
         "message": "Test timeout of 30000ms exceeded.",
         "location": "AC-008-b.spec.ts:5"
@@ -273,16 +273,13 @@
       "requirementId": "REQ-009",
       "must": "A foreign-currency expense is included in USD-denominated totals and category summaries",
       "method": "e2e",
-      "status": "fail",
+      "status": "pass",
       "spec": "tests/e2e/specs/AC-009-a.spec.ts",
       "healed": true,
       "healAttempts": 1,
       "flaky": false,
-      "durationMs": 30452,
-      "failure": {
-        "message": "Test timeout of 30000ms exceeded.",
-        "location": "AC-009-a.spec.ts:6"
-      }
+      "durationMs": 15620,
+      "failure": null
     },
     {
       "id": "AC-009-b",
@@ -294,9 +291,9 @@
       "healed": true,
       "healAttempts": 1,
       "flaky": false,
-      "durationMs": 30391,
+      "durationMs": 27058,
       "failure": {
-        "message": "Test timeout of 30000ms exceeded.",
+        "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByRole('row', { name: /2026-06-01 AC-005-a-1788497690091 23.25 EUR/ })\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" with timeout 10000ms\n  - waiting for getByRole('row', { name: /2026-06-01 AC-005-a-1788497690091 23.25 EUR/ })\n",
         "location": "AC-009-b.spec.ts:33"
       }
     },
@@ -310,7 +307,7 @@
       "healed": true,
       "healAttempts": 1,
       "flaky": false,
-      "durationMs": 14967,
+      "durationMs": 15234,
       "failure": null
     }
   ]
